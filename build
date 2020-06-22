@@ -19,6 +19,6 @@ fi
 #docker rmi one:latest
 docker build -t oradb_exporter:latest .
 
-docker run --rm -t -e DATA_SOURCE_NAME="aaa/aaa@192.168.88.2:1522/oltp" -e DB_INSTANCE="localhost_OLTP" -p 9162:9162 oradb_exporter:latest
+docker run --rm -t -e DATA_SOURCE_NAME="aaa/aaa@192.168.88.2:1522/oltp" -e DB_INSTANCE="localhost_OLTP" -p 9700:9700 oradb_exporter:latest
 
 exit 0

@@ -17,7 +17,7 @@ import (
 
 var (
     version string = "1.0-dev"
-    listenAddress       = flag.String("listen-address", getEnv("LISTEN_ADDRESS", ":9162"), "Address to listen on for web interface and telemetry. (env: LISTEN_ADDRESS)")
+    listenAddress       = flag.String("listen-address", getEnv("LISTEN_ADDRESS", ":9700"), "Address to listen on for web interface and telemetry. (env: LISTEN_ADDRESS)")
     metricPath          = flag.String("telemetry-path", getEnv("TELEMETRY_PATH", "/metrics"), "Path under which to expose metrics. (env: TELEMETRY_PATH)")
     dbInstance          = flag.String("db-instance", getEnv("DB_INSTANCE", "database"), "Name of database")
     db *sql.DB
