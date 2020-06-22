@@ -19,6 +19,7 @@ var (
     version string = "1.0-dev"
     listenAddress       = flag.String("listen-address", getEnv("LISTEN_ADDRESS", ":9162"), "Address to listen on for web interface and telemetry. (env: LISTEN_ADDRESS)")
     metricPath          = flag.String("telemetry-path", getEnv("TELEMETRY_PATH", "/metrics"), "Path under which to expose metrics. (env: TELEMETRY_PATH)")
+    dbInstance          = flag.String("db-instance", getEnv("DB_INSTANCE", "database"), "Name of database")
     db *sql.DB
     pingDataBase string
     dsn string
@@ -94,7 +95,7 @@ func main() {
         prometheus.GaugeOpts {
             Namespace: namespace,
             Subsystem: exporter,
-            Name: "up",
+            Name: "up_" + *dbInstance,
             Help: "Check Oracle DB isAlive",
         })
     prometheus.MustRegister(oraDbUp)
@@ -103,7 +104,7 @@ func main() {
         prometheus.GaugeOpts{
             Namespace: namespace,
             Subsystem: exporter,
-            Name: "users_count",
+            Name: "users_count_" + *dbInstance,
             Help: "Check count connected users",
         })
     prometheus.MustRegister(userCnt)
