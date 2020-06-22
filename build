@@ -1,0 +1,24 @@
+#!/bin/bash
+
+rm -fv $PWD/rootfs/main
+echo "-------------"
+go build main.go
+retval=$?
+#echo $retval
+
+echo
+echo "-------------"
+
+if [ $retval -ne 0 ] 
+then
+    echo "Error \$retval: $retval"
+    exit 2
+fi
+
+
+#docker rmi one:latest
+docker build -t oradb_exporter:latest .
+
+docker run --rm -t -e DATA_SOURCE_NAME="aaa/aaa@192.168.88.2:1522/oltp" -p 9162:9162 oradb_exporter:latest
+
+exit 0
