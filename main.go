@@ -24,6 +24,11 @@ var (
     dsn string
 )
 
+const (
+    namespace = "oradb"
+    exporter = "exporter"
+)
+
 func getEnv(key, fallback string) string {
 	if value, ok := os.LookupEnv(key); ok {
 		return value
@@ -87,13 +92,19 @@ func main() {
 
     oraDbUp := prometheus.NewGauge (
         prometheus.GaugeOpts {
-            Name: "oradb_up",
+            Namespace: namespace,
+            Subsystem: exporter,
+            Name: "up",
+            Help: "Check Oracle DB isAlive",
         })
     prometheus.MustRegister(oraDbUp)
 
     userCnt := prometheus.NewGauge(
         prometheus.GaugeOpts{
-            Name: "oradb_user_cnt",
+            Namespace: namespace,
+            Subsystem: exporter,
+            Name: "users_count",
+            Help: "Check count connected users",
         })
     prometheus.MustRegister(userCnt)
         
