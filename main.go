@@ -61,6 +61,23 @@ func CheckCntUsr(db *sql.DB, userCnt prometheus.Gauge) {
     userCnt.Set(float64(val))
 }
 
+// For example
+func CheckAccStatus(db *sql.DB) {
+    q := `select username, account_status from dba_users order by username`
+    rows3, err := db.Query(q)
+    if err != nil {
+        fmt.Println("Error running query rows3")
+        fmt.Println(err)
+        return
+    }
+    defer rows3.Close()
+    var user, status string 
+    for rows3.Next() {
+        rows3.Scan(&user, &status)
+        fmt.Printf("The acc is: %s and status is: %s\n", user, status)
+    }
+}
+
 func main() {
     dsn := os.Getenv("DATA_SOURCE_NAME")
 
@@ -121,6 +138,7 @@ func main() {
 
     fmt.Printf("The date is: %s\n", thedate)
     log.Infoln("Starting Oracle Data Base Exporter on " + dsn + ". Version " + version)
+    CheckAccStatus(db)
 
     http.Handle(*metricPath, promhttp.Handler())
     log.Infoln("Listening on", *listenAddress)
